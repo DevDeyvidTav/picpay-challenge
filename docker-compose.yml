@@ -1,0 +1,9 @@
+services:
+  db:
+    image: bitnami/postgresql:latest
+    environment:
+      - POSTGRESQL_USERNAME=root
+      - POSTGRESQL_PASSWORD=docker
+      - POSTGRESQL_DATABASE=picpay
+    ports:
+      - '5432:5432'
