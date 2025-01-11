@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryColumn, OneToMany, OneToOne } from "typeorm";
+import { Column, Entity, PrimaryColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Transfers } from "../transfers/transfers.entity";
 import { Wallet } from "../wallet/wallet.entity";
 import { Permissions } from "../permissions/permissions.entity";
@@ -6,8 +6,9 @@ import { Notifications } from "../notifications/notifications.entity";
 
 @Entity({ name: "users" })
 export class User {
-    @PrimaryColumn({ type: "uuid" })
+    @PrimaryGeneratedColumn('uuid') // Gera automaticamente um UUID
     id: string;
+
 
     @Column({ name: "fullName", type: "varchar" })
     fullName: string;

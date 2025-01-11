@@ -12,11 +12,12 @@ export class UserRepository implements AbstractUserRepository {
     ) {}
 
     async create(user: CreateUserDto) {
-        return await this.repository.save(user);
+        const newUser = this.repository.create(user);
+        return await this.repository.save(newUser);
     }
 
     async findByEmail(email: string) {
-        return await this.repository.findOne({ email });
+        return await this.repository.findOne({ where: { email } });
     }
 
     async findById(id: string) {
@@ -28,6 +29,6 @@ export class UserRepository implements AbstractUserRepository {
     }
 
     async findByCpf(cpf: string) {
-        return await this.repository.findOne({ cpf });
+        return await this.repository.findOne({ where: { cpf } });
     }
 }

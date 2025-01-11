@@ -17,11 +17,11 @@ export class UserService {
             ]);
 
             if (emailExists) {
-                throw new BadRequestException('Já existe um usuário com esse email');
+                return new BadRequestException('Já existe um usuário com esse email');
             }
 
             if (cpfExists) {
-                throw new BadRequestException('Já existe um usuário com esse cpf');
+                return new BadRequestException('Já existe um usuário com esse cpf');
             }
 
             return await this.repository.create(user);
@@ -49,7 +49,7 @@ export class UserService {
             return user;
         } catch (error) {
             console.error(`Erro ao buscar usuário com ID ${id}:`, error);
-            throw new InternalServerErrorException('Erro ao buscar usuário');
+            return error
         }
     }
 
