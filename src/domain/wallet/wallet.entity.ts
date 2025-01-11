@@ -11,7 +11,7 @@ export class Wallet {
     @JoinColumn({ name: "userId" })
     user: User;
 
-    @Column({ type: "numeric", default: 0 })
+    @Column({ type: "float", default: 0 })
     balance: number;
 
     @Column({name: "createdAt", type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
