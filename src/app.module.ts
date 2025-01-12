@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { InfraModule } from './domain/infra/type-orm.module';
 import { UserModule } from './domain/users/user.module';
+import { WalletModule } from './domain/wallet/wallet.module';
 
 @Module({
   imports: [
@@ -9,7 +10,8 @@ import { UserModule } from './domain/users/user.module';
       isGlobal: true,
     }),
     InfraModule,
-    UserModule
+    UserModule,
+    WalletModule
   ],
 })
 export class AppModule {}

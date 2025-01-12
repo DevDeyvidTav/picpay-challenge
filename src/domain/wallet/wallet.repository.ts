@@ -11,12 +11,12 @@ export class WalletRepository {
     ) {}
 
     async findByUserId(userId: string) {
-        return await this.repository.findOne({ userId });
+        return await this.repository.findOne({ where: { user: { id: userId } } });
     }
 
     async create(userId: string) {
         const wallet = this.repository.create({
-          user: { id: userId }, // Passa o objeto User com o id
+          user: { id: userId },
           balance: 0,
         });      
         return await this.repository.save(wallet);
