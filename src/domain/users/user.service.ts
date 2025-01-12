@@ -2,6 +2,8 @@ import { BadRequestException, Injectable, InternalServerErrorException, Inject }
 import { AbstractUserRepository } from "./user-repository.abstract";
 import { CreateUserDto } from "./dtos/create-user.dto";
 import { AbstractWalletRepository } from "../wallet/wallet-repository.abstract";
+import { In } from "typeorm";
+import { AbstractPermissionsRepository } from "../permissions/permissions-repository.abstract";
 
 @Injectable()
 export class UserService {
@@ -10,7 +12,10 @@ export class UserService {
         private readonly repository: AbstractUserRepository,
 
         @Inject('UseAbstractWalletRepository')
-        private readonly walletRepository: AbstractWalletRepository
+        private readonly walletRepository: AbstractWalletRepository,
+
+        @Inject('UsePermissionsRepository')
+        private readonly permissionsRepository: AbstractPermissionsRepository
     ) {}
 
     async create(user: CreateUserDto) {
@@ -31,6 +36,7 @@ export class UserService {
             const newUser = await this.repository.create(user);
 
             const wallet = await this.walletRepository.create(newUser.id);
+
             return {
                 newUser,
                 wallet

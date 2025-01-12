@@ -1,18 +1,17 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, OneToOne } from "typeorm";
 import { User } from "../users/user.entity";
-
 
 @Entity({ name: "permissions" })
 export class Permissions {
-    @PrimaryGeneratedColumn("uuid")
-    id: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @Column({ type: "varchar", length: 255 })
-    name: string;
+  @Column({ name: "name", type: "varchar" })
+  name: string;
 
-    @Column({ type: "boolean", default: false })
-    canSend: boolean;
+  @Column({ name: "canSend", type: "boolean" })
+  canSend: boolean;
 
-    @OneToMany(() => User, user => user.permission)
-    user: User;
+  @OneToOne(() => User, (user) => user.permission)
+  user: User;
 }

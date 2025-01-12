@@ -13,6 +13,7 @@ export class UserRepository implements AbstractUserRepository {
 
     async create(user: CreateUserDto) {
         const newUser = this.repository.create(user);
+        newUser.permission = {id: user.permission};
         return await this.repository.save(newUser);
     }
 
