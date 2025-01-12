@@ -7,6 +7,7 @@ import { UserModule } from "../users/user.module";
 import { PermissionsModule } from "../permissions/permissions.module";
 import { TransfersController } from "./transfers.controller";
 import { Transfers } from "./transfers.entity";
+import { NotificationsModule } from "../notifications/notifications.module";
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { Transfers } from "./transfers.entity";
     WalletModule, 
     UserModule,
     PermissionsModule, 
+    NotificationsModule
   ],
   providers: [
     TransfersService,

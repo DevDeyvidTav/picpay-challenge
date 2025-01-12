@@ -19,6 +19,8 @@ import {
       @Inject('UsePermissionsRepository')
       private readonly permissionsRepository,
       private readonly dataSource: DataSource,
+      @Inject('UseAbstractNotificationsRepository')
+      private readonly notificationsRepository,
     ) {}
   
     async create(data: CreateTransferDto) {
@@ -56,6 +58,14 @@ import {
         await this.walletRepository.creditBalance(data.receiver, data.value, queryRunner.manager);
 
         const transfer = await this.transfersRepository.create(data, queryRunner.manager);
+        const sender = await this.userRepository.findById(data.sender, queryRunner.manager);
+
+        const notification = {
+          message: `Transferência de ${data.value} reais recebida de ${sender.fullName}`,
+          userId: data.sender,
+        };
+
+        await this.notificationsRepository.create(notification, queryRunner.manager);
   
         await queryRunner.commitTransaction();
         return transfer;

@@ -4,6 +4,7 @@ import { InfraModule } from './domain/infra/type-orm.module';
 import { UserModule } from './domain/users/user.module';
 import { WalletModule } from './domain/wallet/wallet.module';
 import { TransfersModule } from './domain/transfers/transfers.module';
+import { NotificationsModule } from './domain/notifications/notifications.module';
 
 @Module({
   imports: [
@@ -13,7 +14,8 @@ import { TransfersModule } from './domain/transfers/transfers.module';
     InfraModule,
     UserModule,
     WalletModule,
-    TransfersModule
+    TransfersModule,
+    NotificationsModule
   ],
 })
 export class AppModule {}

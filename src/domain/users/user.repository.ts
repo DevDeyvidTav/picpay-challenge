@@ -22,7 +22,7 @@ export class UserRepository implements AbstractUserRepository {
     }
 
     async findById(id: string) {
-        return await this.repository.findOne(id);
+        return await this.repository.findOne({ where: { id } });
     }
 
     async findAll() {
