@@ -25,12 +25,15 @@ import {
   
     async create(data: CreateTransferDto) {
       const queryRunner = this.dataSource.createQueryRunner();
+
+      if(data.sender === data.receiver) {
+        throw new BadRequestException('Não é possivel realizar uma transferência para o mesmo usuário');
+      }
   
       await queryRunner.connect();
       await queryRunner.startTransaction();
   
       try {
-        // Verifica permissões
         const senderPermission = await this.permissionsRepository.findByUserId(
           data.sender,
           queryRunner.manager,
@@ -42,7 +45,6 @@ import {
           );
         }
   
-        // Verifica saldo
         const senderHasBalance =
           await this.walletRepository.verifyIfIsPossibleTransfer(
             data.sender,
