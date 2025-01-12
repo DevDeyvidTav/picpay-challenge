@@ -18,5 +18,6 @@ import { PermissionsModule } from '../permissions/permissions.module';
       useClass: UserRepository,
     },
   ],
+  exports: ['UseAbstractUserRepository'],
 })
 export class UserModule {}

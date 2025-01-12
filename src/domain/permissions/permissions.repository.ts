@@ -13,7 +13,10 @@ export class PermissionsRepository {
         return await this.repository.find();
     }
 
-    async findByUserId(userId: string): Promise<Permissions[]> {
-        return await this.repository.find({ where: { user: { id: userId } } });
+    async findByUserId(userId: string): Promise<Permissions | null> {
+        return await this.repository.findOne({
+            where: { user: { id: userId } },
+            relations: ['user'], // Garante que o relacionamento é carregado
+        });
     }
 }
