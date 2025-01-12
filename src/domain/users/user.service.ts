@@ -1,12 +1,16 @@
 import { BadRequestException, Injectable, InternalServerErrorException, Inject } from "@nestjs/common";
 import { AbstractUserRepository } from "./user-repository.abstract";
 import { CreateUserDto } from "./dtos/create-user.dto";
+import { AbstractWalletRepository } from "../wallet/wallet-repository.abstract";
 
 @Injectable()
 export class UserService {
     constructor(
         @Inject('UseAbstractUserRepository')
         private readonly repository: AbstractUserRepository,
+
+        @Inject('UseAbstractWalletRepository')
+        private readonly walletRepository: AbstractWalletRepository
     ) {}
 
     async create(user: CreateUserDto) {
@@ -24,7 +28,13 @@ export class UserService {
                 return new BadRequestException('Já existe um usuário com esse cpf');
             }
 
-            return await this.repository.create(user);
+            const newUser = await this.repository.create(user);
+
+            const wallet = await this.walletRepository.create(newUser.id);
+            return {
+                newUser,
+                wallet
+            }
         } catch (error) {
             console.error('Erro ao criar usuário:', error);
             throw new InternalServerErrorException('Erro ao criar usuário');
