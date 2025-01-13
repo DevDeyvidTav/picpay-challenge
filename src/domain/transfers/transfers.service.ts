@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Inject,
   Injectable,
   InternalServerErrorException,
@@ -7,6 +8,7 @@ import {
 import { CreateTransferDto } from './dtos/create-transfer.dto';
 import { DataSource, EntityManager } from 'typeorm';
 import { NotificationsService } from '../notifications/notifications.service';
+import axios from 'axios';
 
 @Injectable()
 export class TransfersService {
@@ -42,7 +44,7 @@ export class TransfersService {
       );
 
       if (!senderPermission || !senderPermission.canSend) {
-        throw new BadRequestException(
+        return new BadRequestException(
           'Usuário sem permissão para enviar transferência',
         );
       }
@@ -56,6 +58,18 @@ export class TransfersService {
 
       if (!senderHasBalance) {
         throw new BadRequestException('Usuário sem saldo suficiente');
+      }
+
+      const authResponse = await fetch(
+        'https://util.devi.tools/api/v2/authorize',
+        {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' }
+        },
+      );
+
+      if (authResponse.status !== 200) {
+        throw new ForbiddenException('Transferência não autorizada');
       }
 
       await this.walletRepository.debitBalance(
@@ -89,7 +103,7 @@ export class TransfersService {
     } catch (error) {
       await queryRunner.rollbackTransaction();
       console.error('Erro ao criar transferência:', error);
-      throw new InternalServerErrorException('Erro ao criar transferência');
+      throw error
     } finally {
       await queryRunner.release();
     }

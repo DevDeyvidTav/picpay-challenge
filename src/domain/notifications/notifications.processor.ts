@@ -19,8 +19,8 @@ export class NotificationsProcessor {
       const response = await fetch('https://util.devi.tools/api/v1/notify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message, userId }),
       });
+
 
       if (!response.ok) {
         throw new Error(`Falha ao enviar notificação. Status: ${response.status}`);
