@@ -1,21 +1,21 @@
-import { Module } from "@nestjs/common";
-import { TransfersService } from "./transfers.service";
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { TransfersRepository } from "./transfers.repository";
-import { WalletModule } from "../wallet/wallet.module";
-import { UserModule } from "../users/user.module";
-import { PermissionsModule } from "../permissions/permissions.module";
-import { TransfersController } from "./transfers.controller";
-import { Transfers } from "./transfers.entity";
-import { NotificationsModule } from "../notifications/notifications.module";
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { TransfersService } from './transfers.service';
+import { TransfersRepository } from './transfers.repository';
+import { WalletModule } from '../wallet/wallet.module';
+import { UserModule } from '../users/user.module';
+import { PermissionsModule } from '../permissions/permissions.module';
+import { NotificationsModule } from '../notifications/notifications.module';
+import { TransfersController } from './transfers.controller';
+import { Transfers } from './transfers.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Transfers]),
-    WalletModule, 
+    WalletModule,
     UserModule,
-    PermissionsModule, 
-    NotificationsModule
+    PermissionsModule,
+    NotificationsModule, // Certifique-se de importar
   ],
   providers: [
     TransfersService,

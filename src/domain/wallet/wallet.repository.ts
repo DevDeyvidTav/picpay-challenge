@@ -44,13 +44,17 @@ export class WalletRepository {
   }
 
   async debitBalance(userId: string, value: number, manager?: EntityManager): Promise<Wallet> {
-    const userWallet = await this.findByUserId(userId, manager);
-    if (!userWallet) {
-      throw new Error("Carteira não encontrada");
+    try {
+      const userWallet = await this.findByUserId(userId, manager);
+      if (!userWallet) {
+        throw new Error("Carteira não encontrada");
+      }
+      userWallet.balance -= value;
+  
+      const repo = manager ? manager.getRepository(Wallet) : this.repository;
+      return await repo.save(userWallet);
+    } catch (error) {
+      throw error
     }
-    userWallet.balance -= value;
-
-    const repo = manager ? manager.getRepository(Wallet) : this.repository;
-    return await repo.save(userWallet);
   }
 }
